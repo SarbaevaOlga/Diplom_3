@@ -1,78 +1,78 @@
 import allure
 import pytest
 
-from pages.main_page import MainPage
-from pages.orders_page import OrdersPage
+from pages.main_page import MainScreen
+from pages.orders_page import OrdersScreen
 
 
 @allure.feature("Отслеживание заказов")
-class TestOrderMonitoring:
+class TestOrderTracking:
 
     @allure.title("Счетчик всех заказов обновляется после создания заказа")
-    def test_lifetime_counter_updates_after_order(self, logged_in_user):
-        main_page = MainPage(logged_in_user)
-        orders_page = OrdersPage(logged_in_user)
+    def test_lifetime_counter_updates_after_order(self, authenticated_user):
+        main_screen = MainScreen(authenticated_user)
+        orders_screen = OrdersScreen(authenticated_user)
 
-        main_page.wait_for_page_loaded()
+        main_screen.wait_for_screen_load()
 
-        main_page.go_to_orders_feed()
-        orders_page.wait_for_page_load()
-        initial_lifetime_total = orders_page.get_lifetime_orders_total()
+        main_screen.navigate_to_orders_feed()
+        orders_screen.wait_for_screen_ready()
+        initial_total = orders_screen.get_total_orders_count()
 
-        main_page.go_to_constructor()
-        main_page.wait_for_page_loaded()
+        main_screen.navigate_to_builder()
+        main_screen.wait_for_screen_load()
 
-        main_page.drop_ingredient_to_constructor()
-        main_page.place_new_order()
+        main_screen.add_ingredient_to_constructor()
+        main_screen.create_new_order()
 
-        main_page.close_order_modal()
+        main_screen.close_order_confirmation()
 
-        main_page.go_to_orders_feed()
-        final_lifetime_total = orders_page.get_lifetime_orders_total()
+        main_screen.navigate_to_orders_feed()
+        final_total = orders_screen.get_total_orders_count()
 
-        assert final_lifetime_total > initial_lifetime_total
+        assert final_total > initial_total
 
     @allure.title("Счетчик сегодняшних заказов обновляется после создания заказа")
-    def test_daily_counter_updates_after_order(self, logged_in_user):
-        main_page = MainPage(logged_in_user)
-        orders_page = OrdersPage(logged_in_user)
+    def test_todays_orders_counter_updates_after_order_creation(self, authenticated_user):
+        main_screen = MainScreen(authenticated_user)
+        orders_screen = OrdersScreen(authenticated_user)
 
-        main_page.wait_for_page_loaded()
+        main_screen.wait_for_screen_load()
 
-        main_page.go_to_orders_feed()
-        orders_page.wait_for_page_load()
-        initial_daily_total = orders_page.get_daily_orders_total()
+        main_screen.navigate_to_orders_feed()
+        orders_screen.wait_for_screen_ready()
+        initial_today = orders_screen.get_todays_orders_count()
 
-        main_page.go_to_constructor()
-        main_page.wait_for_page_loaded()
+        main_screen.navigate_to_builder()
+        main_screen.wait_for_screen_load()
 
-        main_page.drop_ingredient_to_constructor()
-        main_page.place_new_order()
+        main_screen.add_ingredient_to_constructor()
+        main_screen.create_new_order()
 
-        main_page.close_order_modal()
+        main_screen.close_order_confirmation()
 
-        main_page.go_to_orders_feed()
-        final_daily_total = orders_page.get_daily_orders_total()
+        main_screen.navigate_to_orders_feed()
+        final_today = orders_screen.get_todays_orders_count()
 
-        assert final_daily_total > initial_daily_total
+        assert final_today > initial_today
 
     @allure.title("Номер заказа отображается в активных заказах")
-    def test_order_id_shown_in_current_orders(self, logged_in_user):
-        main_page = MainPage(logged_in_user)
-        orders_page = OrdersPage(logged_in_user)
+    def test_order_number_appears_in_active_orders(self, authenticated_user):
+        main_screen = MainScreen(authenticated_user)
+        orders_screen = OrdersScreen(authenticated_user)
 
-        main_page.wait_for_page_loaded()
+        main_screen.wait_for_screen_load()
 
-        main_page.drop_ingredient_to_constructor()
-        main_page.place_new_order()
+        main_screen.add_ingredient_to_constructor()
+        main_screen.create_new_order()
 
-        created_order_id = main_page.get_created_order_id()
-        main_page.close_order_modal()
+        created_order_number = main_screen.get_created_order_number()
+        main_screen.close_order_confirmation()
 
-        main_page.go_to_orders_feed()
-        orders_page.wait_for_page_load()
+        main_screen.navigate_to_orders_feed()
+        orders_screen.wait_for_screen_ready()
 
-        orders_page.wait_for_current_orders()
-        current_order_id = orders_page.get_current_order_id()
+        orders_screen.wait_for_active_orders()
+        active_order_number = orders_screen.get_active_order_number()
 
-        assert created_order_id == current_order_id
+        assert created_order_number == active_order_number

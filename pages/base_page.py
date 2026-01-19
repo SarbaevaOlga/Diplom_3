@@ -24,41 +24,41 @@ class BasePage:
 
     @allure.step("Получение текста элемента")
     def get_text_content(self, locator):
-        return self.wait_until_visible(locator).text
+        return self.wait_for_element_visible(locator).text
 
     @allure.step("Проверка видимости элемента")
-    def check_element_visibility(self, locator):
-        return self.wait_until_visible(locator).is_displayed()
+    def is_element_displayed(self, locator):
+        return self.wait_for_element_visible(locator).is_displayed()
 
     @allure.step("Открытие страницы")
-    def go_to_page(self, url):
-        self.browser.get(url)
+    def navigate_to_url(self, url):
+        self.driver.get(url)
 
     @allure.step("Получение текущего URL")
-    def get_page_url(self):
-        return self.browser.current_url
+    def get_current_url(self):
+        return self.driver.current_url
 
     @allure.step("Прокрутка к элементу")
-    def scroll_into_view(self, locator):
+    def scroll_to_element(self, locator):
         element = self.browser.find_element(*locator)
         self.browser.execute_script("arguments[0].scrollIntoView();", element)
 
     @allure.step("Ожидание скрытия элемента")
-    def wait_until_hidden(self, locator, wait_time=20):
-        return WebDriverWait(self.browser, wait_time).until(EC.invisibility_of_element_located(locator))
+    def wait_for_element_hidden(self, locator, wait_time=20):
+        return WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located(locator))
 
     @allure.step("Перетаскивание элемента")
-    def drag_and_drop_element(self, source_element, target_element):
-        drag_and_drop(self.browser, source_element, target_element)
+    def drag_and_drop_element(self, source, target):
+        drag_and_drop(self.driver, source, target)
 
     @allure.step("Ввод текста в поле")
-    def fill_input_field(self, locator, text_content, wait_time=20):
+    def enter_text(self, locator, text_content, wait_time=20):
         element = self.wait_until_visible(locator, wait_time)
         element.clear()
-        element.send_keys(text_content)
+        element.send_keys(text)
 
     @allure.step("Ожидание атрибута элемента")
-    def wait_for_attribute_value(self, locator, attribute_name, expected_value, wait_time=10):
-        WebDriverWait(self.browser, wait_time).until(
-            EC.text_to_be_present_in_element_attribute(locator, attribute_name, expected_value)
+    def wait_for_attribute_value(self, locator, attribute, expected_value, timeout=10):
+        WebDriverWait(self.browser, timeout).until(
+            EC.text_to_be_present_in_element_attribute(locator, attribute, expected_value)
         )
