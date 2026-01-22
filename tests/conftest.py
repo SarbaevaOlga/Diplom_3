@@ -6,18 +6,18 @@ from utils.application_data import ApplicationURLs, generate_customer_profile
 
 
 @pytest.fixture(params=["chrome", "firefox"])
-def browser(request):
+def driver(request):
     if request.param == "chrome":
-        browser_instance = webdriver.Chrome()
-        browser_instance.maximize_window()
+        driver_instance = webdriver.Chrome()
+        driver_instance.maximize_window()
         driver_instance.get(ApplicationURLs.HOME_PAGE)
     elif request.param == "firefox":
-        browser_instance = webdriver.Firefox()
-        browser_instance.maximize_window()
-        browser_instance.get(ApplicationURLs.HOME_PAGE)
+        driver_instance = webdriver.Firefox()
+        driver_instance.maximize_window()
+        driver_instance.get(ApplicationURLs.HOME_PAGE)
     
-    yield browser_instance
-    browser_instance.quit()
+    yield driver_instance
+    driver_instance.quit()
 
 
 @pytest.fixture(scope="function")

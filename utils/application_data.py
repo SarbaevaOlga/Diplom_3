@@ -3,28 +3,28 @@ import string
 import time
 
 
-class AppUrls:
+class ApplicationURLs:
     # основные страницы приложения
-    MAIN_PAGE = 'https://stellarburgers.education-services.ru/'
-    LOGIN_PAGE = f'{MAIN_PAGE}login'
-    ORDERS_PAGE = f'{MAIN_PAGE}feed'
+    HOME_PAGE = 'https://stellarburgers.education-services.ru/'
+    LOGIN_PAGE = f'{HOME_PAGE}login'
+    ORDERS_FEED = f'{HOME_PAGE}feed'
 
     # API endpoints
-    REGISTRATION_ENDPOINT = f'{MAIN_PAGE}api/auth/register'
-    USER_DATA_ENDPOINT = f'{MAIN_PAGE}api/auth/user'
+    USER_REGISTRATION = f'{HOME_PAGE}api/auth/register'
+    USER_PROFILE = f'{HOME_PAGE}api/auth/user'
 
 
-def create_test_customer():
-    """Генератор тестовых профилей пользователей"""
-    current_timestamp = int(time.time())
-    random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+def generate_customer_profile():
+    """Генератор тестовых профилей клиентов"""
+    timestamp = int(time.time())
+    random_id = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
     
-    user_name = f"User{current_timestamp}"
-    user_email = f"user{current_timestamp}@testmail.org"
-    user_password = f"SecurePass{current_timestamp}{random_string}!"
+    customer_name = f"Customer{timestamp}"
+    customer_email = f"customer{timestamp}@testmail.org"
+    customer_password = f"SecurePass{timestamp}{random_id}!"
     
     return {
-        "email": user_email,
-        "password": user_password,
-        "name": user_name
+        "email": customer_email,
+        "password": customer_password,
+        "name": customer_name
     }

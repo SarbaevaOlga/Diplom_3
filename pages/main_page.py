@@ -5,17 +5,17 @@ from utils.application_data import ApplicationURLs
 from locators.main_page_locators import MainScreenSelectors
 
 
-class MainScreen(BasePage):
+class MainScreen(BaseScreen):
     @allure.step("Открыть главный экран")
     def open_main_screen(self):
         self.navigate_to_url(ApplicationURLs.HOME_PAGE)
 
-    @allure.step("Дождаться загрузки страницы")
+    @allure.step("Дождаться загрузки экрана")
     def wait_for_screen_load(self):
         self.wait_for_element_hidden(MainScreenSelectors.MODAL_BACKDROP, timeout=20)
 
-    @allure.step("Проверить открытие главной страницы")
-    def verify_main_screen_displayed(self):
+    @allure.step("Проверить открытие главного экрана")
+    def is_main_screen_displayed(self):
         return self.get_current_url() == ApplicationURLs.HOME_PAGE
 
     @allure.step("Перейти в конструктор")
@@ -30,7 +30,7 @@ class MainScreen(BasePage):
         self.click_element(MainScreenSelectors.ORDERS_FEED_LINK)
 
     @allure.step("Выбрать ингредиент")
-    def pick_ingredient(self):
+    def select_ingredient(self):
         self.scroll_to_element(MainScreenSelectors.SPECIAL_BUN)
         self.wait_for_element_clickable(MainScreenSelectors.SPECIAL_BUN)
         self.click_element(MainScreenSelectors.SPECIAL_BUN)
@@ -40,27 +40,27 @@ class MainScreen(BasePage):
         self.click_element(MainScreenSelectors.MODAL_CLOSE)
 
     @allure.step("Проверить открытие модального окна")
-    def check_modal_visible(self):
+    def is_modal_displayed(self):
         return self.is_element_displayed(MainScreenSelectors.DETAILS_MODAL)
 
     @allure.step("Проверить закрытие модального окна")
-    def check_modal_closed(self):
+    def is_modal_closed(self):
         return self.wait_for_element_hidden(MainScreenSelectors.DETAILS_MODAL)
 
     @allure.step("Ожидание скрытия оверлея")
-    def wait_for_overlay_disappear(self):
+    def wait_for_backdrop_hidden(self):
         self.wait_for_element_hidden(MainScreenSelectors.MODAL_BACKDROP)
 
     @allure.step("Получить счетчик ингредиента")
     def get_ingredient_count(self):
-        counter_text = self.get_element_text(MainScreenSelectors.ITEM_QUANTITY)
+        count_text = self.get_element_text(MainScreenSelectors.ITEM_QUANTITY)
         return int(count_text)
 
     @allure.step("Добавить ингредиент в конструктор")
     def add_ingredient_to_constructor(self):
-       source_element = self.wait_for_element_visible(MainScreenSelectors.SPECIAL_BUN)
-       target_element = self.wait_for_element_visible(MainScreenSelectors.CONSTRUCTOR_AREA)
-       self.perform_drag_and_drop(source_element, target_element)
+        source_element = self.wait_for_element_visible(MainScreenSelectors.SPECIAL_BUN)
+        target_element = self.wait_for_element_visible(MainScreenSelectors.CONSTRUCTOR_AREA)
+        self.perform_drag_and_drop(source_element, target_element)
 
     @allure.step("Создать заказ")
     def create_new_order(self):
@@ -75,7 +75,7 @@ class MainScreen(BasePage):
         self.click_element(MainScreenSelectors.MODAL_CLOSE)
 
     @allure.step("Получить номер созданного заказа")
-    def get_created_order_id(self):
+    def get_created_order_number(self):
         self.wait_for_backdrop_hidden()
         order_number_text = self.get_element_text(MainScreenSelectors.ORDER_NUMBER_DISPLAY)
         return int(order_number_text)

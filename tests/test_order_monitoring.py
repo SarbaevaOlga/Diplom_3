@@ -9,7 +9,7 @@ from pages.orders_page import OrdersScreen
 class TestOrderTracking:
 
     @allure.title("Счетчик всех заказов обновляется после создания заказа")
-    def test_lifetime_counter_updates_after_order(self, authenticated_user):
+    def test_total_orders_counter_updates_after_order_creation(self, authenticated_user):
         main_screen = MainScreen(authenticated_user)
         orders_screen = OrdersScreen(authenticated_user)
 
