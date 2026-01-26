@@ -1,19 +1,17 @@
-from selenium.webdriver.common.by import By
-
 
 class MainScreenSelectors:
     # навигационные элементы
-    BUILDER_LINK = (By.XPATH, "//p[text()='Конструктор']/ancestor::a")
-    ORDERS_FEED_LINK = (By.XPATH, "//p[text()='Лента Заказов']/ancestor::a")
+    BUILDER_LINK = (By.XPATH, "//p[text()='Конструктор']")
+    ORDERS_FEED_LINK = (By.XPATH, "//p[text()='Лента Заказов']")
 
     # элементы конструктора
     SPECIAL_BUN = (By.XPATH, ".//*[text()='Флюоресцентная булка R2-D3']")
     ITEM_QUANTITY = (By.XPATH, ".//*[@class='counter_counter__num__3nue1']")
 
     # модальные окна
-    DETAILS_MODAL = (By.XPATH, "//h2[text()='Детали ингредиента']/parent::div")
+    DETAILS_MODAL = (By.XPATH, "//h2[text()='Детали ингредиента']")
     MODAL_CLOSE = (By.XPATH, "//button[@class='Modal_modal__close_modified__3V5XS Modal_modal__close__TnseK']")
-    MODAL_BACKDROP = (By.XPATH, ".//div[contains(@class, 'Modal_modal_overlay__x2ZCr')]/parent::div")
+    MODAL_BACKDROP = (By.XPATH, ".//div[contains(@class, 'Modal_modal_overlay__x2ZCr')]")
     LOADING_INDICATOR = (By.XPATH, "//img[@alt ='loading animation']")
     MODAL_CONTAINER = (By.XPATH, "//div[contains(@class, 'Modal_modal__contentBox')]")
 
